@@ -32,14 +32,15 @@ public class HamSpam {
 	 * @return the hamspam value, as a String
 	 */
 	public String getValue(int n) {
-		if (n == 3) {
+		if (n % hamNumber == 0 && n % spamNumber == 0) { //checks for hamspam.//
+			return "hamspam";
+		}
+		else if (n % hamNumber == 0) { //checks for ham.//
 			return "ham";
 		}
-
-		if (n == 4) {
+		else if (n % spamNumber == 0) { //checks for spam.//
 			return "spam";
 		}
-		
 		else {
 			return Integer.toString(n);
 		}   
@@ -61,6 +62,12 @@ public class HamSpam {
 	 * @return the array of hamspam values
 	 */
 	public String[] getValues(int start, int end) {
-        	return new String[] {"1", "2", "ham", "spam"};
+		String[] resultString = new String[end - start + 1]; //+1 because also includes start in the entries.//
+		int entry = start;
+		for (int i = 0; i < resultString.length; i++) {
+			resultString[i] = getValue(entry);
+			entry++;
+		}
+        return resultString;
 	}
 }
