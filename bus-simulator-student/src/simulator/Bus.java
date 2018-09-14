@@ -10,6 +10,7 @@ public class Bus {
 	private int x;
 	private int y;
 	private int direction; 
+	private boolean stationary;
 
 	public Bus(int number, RoadMap roadMap, int x, int y) {
 		this.number = number;
@@ -17,6 +18,7 @@ public class Bus {
 		this.x = x;
 		this.y = y;
 		this.direction = -1;
+		this.newBus = true;
 	}
 
 	public int getX() {
@@ -72,7 +74,7 @@ public class Bus {
 		int cordX = this.x;
 		int cordY = this.y;
 		
-		if (direction == -1) {
+		if (stationary == true) {
 			if(roadMap.isRoad(cordX, cordY + 1) == true) {
 				moveNorth();
 			}
@@ -85,10 +87,25 @@ public class Bus {
 			else {
 				moveWest();
 			}
+			stationary = false;
 		}
 		
-		if (direction != -1) {
-			
+		if (stationary == false) {
+			if(direction == 1 && roadMap.isRoad(cordX, cordY + 1) == true) {
+				moveNorth();
+			}
+			else if(direction == 2 && roadMap.isRoad(cordX, cordY - 1) == true) {
+				moveSouth();
+			}
+			else if(direction == 3 && roadMap.isRoad(cordX + 1, cordY) == true) {
+				moveEast();
+			}
+			else if(direction == 4 && roadMap.isRoad(cordX - 1, cordY) == true) {
+				moveWest();
+			}
+			else {
+				stationary = true;
+			}
 		}
 	}
 }
