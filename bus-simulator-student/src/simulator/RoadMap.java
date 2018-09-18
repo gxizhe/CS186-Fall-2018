@@ -74,7 +74,12 @@ public class RoadMap {
 	}
 
 	public boolean isRoad(int x, int y) {
-		return isRoad[x][y];
+		if(x < 0 || x > xSize - 1 || y < 0 || y > ySize - 1){
+			return false;
+		}
+		else {
+			return isRoad[x][y];
+		}
 	}
 
 	public void setRoad(int x, int y, boolean isRoad) {

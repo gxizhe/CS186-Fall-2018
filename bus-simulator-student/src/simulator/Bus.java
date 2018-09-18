@@ -17,8 +17,8 @@ public class Bus {
 		this.roadMap = roadMap;
 		this.x = x;
 		this.y = y;
-		this.direction = -1;
-		this.newBus = true;
+		this.direction = 0;
+		this.stationary = true;
 	}
 
 	public int getX() {
@@ -84,24 +84,79 @@ public class Bus {
 			else if(roadMap.isRoad(cordX + 1, cordY) == true) {
 				moveEast();
 			}
-			else {
+			else if(roadMap.isRoad(cordX - 1, cordY) == true){
 				moveWest();
 			}
 			stationary = false;
 		}
-		
-		if (stationary == false) {
-			if(direction == 1 && roadMap.isRoad(cordX, cordY + 1) == true) {
-				moveNorth();
+		else if (stationary == false) {
+			if(direction == 1) {
+				if(roadMap.isRoad(cordX, cordY + 1)) {
+					moveNorth();
+				}
+				else if(roadMap.isRoad(cordX + 1, cordY)){
+					moveEast();
+				}
+				else if(roadMap.isRoad(cordX - 1, cordY)){
+					moveWest();
+				}
+				else if(roadMap.isRoad(cordX, cordY + 1)){
+					moveSouth();
+				}
+				else {
+					stationary = true;
+				}
 			}
-			else if(direction == 2 && roadMap.isRoad(cordX, cordY - 1) == true) {
-				moveSouth();
+			else if(direction == 2) {
+				if(roadMap.isRoad(cordX, cordY - 1)) {
+					moveSouth();
+				}
+				else if(roadMap.isRoad(cordX - 1, cordY)){
+					moveWest();
+				}
+				else if(roadMap.isRoad(cordX + 1, cordY)){
+					moveEast();
+				}
+				else if(roadMap.isRoad(cordX, cordY + 1)){
+					moveNorth();
+				}
+				else {
+					stationary = true;
+				}
 			}
-			else if(direction == 3 && roadMap.isRoad(cordX + 1, cordY) == true) {
-				moveEast();
+			else if(direction == 3) {
+				if(roadMap.isRoad(cordX + 1, cordY)) {
+					moveEast();
+				}
+				else if(roadMap.isRoad(cordX, cordY - 1)) {
+					moveSouth();
+				}
+				else if(roadMap.isRoad(cordX, cordY + 1)){
+					moveNorth();
+				}
+				else if(roadMap.isRoad(cordX - 1, cordY)) {
+					moveWest();
+				}
+				else {
+					stationary = true;
+				}
 			}
-			else if(direction == 4 && roadMap.isRoad(cordX - 1, cordY) == true) {
-				moveWest();
+			else if(direction == 4) {
+				if(roadMap.isRoad(cordX - 1, cordY)) {
+					moveWest();
+				}
+				else if(roadMap.isRoad(cordX, cordY + 1)) {
+					moveNorth();
+				}
+				else if(roadMap.isRoad(cordX, cordY - 1)){
+					moveSouth();
+				}
+				else if(roadMap.isRoad(cordX + 1, cordY)) {
+					moveEast();
+				}
+				else {
+					stationary = true;
+				}
 			}
 			else {
 				stationary = true;
