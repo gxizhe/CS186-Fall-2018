@@ -1,31 +1,41 @@
 public class Bus {
     private int number;
 
+    public Bus() {
+    }
     public Bus(int n) {
         number = n;
     }
 
     public static void main(String[] args) {
-        Bus busA = new Bus(44);
-        Bus busB = new Bus(44);
+    	Bus busA = new Bus();
+    	Bus busB = new Bus();
 
-        Bus busC = busA;
+    	busA.number(44);
+    	busB.number(44);
 
-        System.out.println(busA == busB);
-        System.out.println(busA.equals(busB));
+    	System.out.println(busA == busB);
+    	System.out.println(busA.equals(busB));
 
-        busC.setNumber(13);
-        System.out.println(busA == busC);
-        System.out.println(busA.equals(busC));
+    	Bus busC = busB;
+    	busB = busA;
 
-        busC = new Bus(13);
+    	busA.number(13);
+
+    	System.out.println(busA == busC);
+    	System.out.println(busA.equals(busC));
+
+    	busC = busB;
+
+    	System.out.println(busA == busC);
+    	System.out.println(busA.equals(busC));
     }
 
     public int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void number(int number) {
         this.number = number;
     }
 
