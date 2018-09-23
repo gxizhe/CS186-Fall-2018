@@ -19,7 +19,13 @@ public class ExtendedArrayList<E> extends ArrayList<E> {
 	 * @return the number of elements equal to e
 	 */
 	public int count(E e) {
-		return 0;
+		int count = 0;
+		for (int i = 0; i < size(); i++) {
+			if(get(i).equals(e)) {
+				count++;
+			}
+		}
+		return count;
 	}
 	
 	/**
@@ -38,6 +44,14 @@ public class ExtendedArrayList<E> extends ArrayList<E> {
 	 * @param n the distance to rotate the list right
 	 */
 	public void rotateRight(int n) {
+		if (size() == 0) {
+			return;
+		}
+		for (int i = 0; i < n; i++) {
+			E last = get(size() - 1);
+			remove(size() - 1);
+			add(0, last);
+		}
 	}	
 	
 	/**
@@ -49,6 +63,10 @@ public class ExtendedArrayList<E> extends ArrayList<E> {
 	 * @param e the element to intersperse
 	 */
 	public void intersperse(E e) {
+		int newSize = ((size() * 2) - 1);
+		for (int i = 1; i < newSize; i += 2) {
+			add(i, e);
+		}
 	}
 	
 	/**
@@ -59,6 +77,10 @@ public class ExtendedArrayList<E> extends ArrayList<E> {
 	 * @return a reversed copy of the list
 	 */
 	public List<E> reversed() {
-		return null;
+		ExtendedArrayList<E>reverse = new ExtendedArrayList<E>();
+		for(int i = size() -  1; i >= 0; i--) {
+			reverse.add(get(i));
+		}
+		return reverse;
 	}
 }

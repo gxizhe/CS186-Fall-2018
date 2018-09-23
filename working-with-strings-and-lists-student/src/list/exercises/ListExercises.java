@@ -4,6 +4,7 @@
 
 package list.exercises;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ListExercises {
@@ -15,7 +16,11 @@ public class ListExercises {
 	 * @return the number of characters
 	 */
 	public static int countCharacters(List<String> l) {
-		return 0;
+		int totalChar = 0;
+		for (int i = 0; i < l.size(); i++) {
+			totalChar += l.get(i).length();
+		}
+		return totalChar;
 	}
 	
 	/**
@@ -26,7 +31,10 @@ public class ListExercises {
 	 * @return a list of words
 	 */
 	public static List<String> split(String s) {
-		return null;
+		List<String> words;
+		String[] word = s.split("\\s+");
+		words = Arrays.asList(word);
+		return words;
 	}
 
 	/**
@@ -39,7 +47,11 @@ public class ListExercises {
 	 * @return a list of uppercased strings
 	 */
 	public static List<String> uppercased(List<String> l) {
-		return null;
+		ExtendedArrayList<String> capped = new ExtendedArrayList<String>();
+		for (int i = 0; i < l.size(); i++) {
+			capped.add(l.get(i).toUpperCase());
+		}
+		return capped;
 	}
 
 	/**
@@ -50,7 +62,23 @@ public class ListExercises {
 	 * @return true iff each string starts with an uppercase letter
 	 */
 	public static boolean allCapitalizedWords(List<String> l) {
-		return false;
+		if (l.size() == 0) {
+			return false;
+		}
+		else {
+			for (int i = 0; i < l.size(); i++) {
+				if (l.get(i).isEmpty() == false) {
+					if (Character.isUpperCase(l.get(i).charAt(0)) == false || 
+							Character.isLetter(l.get(i).charAt(0)) == false) {
+						return false;
+					}
+				}
+				else {
+					return false;
+				}
+			}	
+		}
+		return true;
 	}
 
 	/**
@@ -66,7 +94,13 @@ public class ListExercises {
 	 * @return a list of strings containing the character c, selected from l
 	 */
 	public static List<String> filterContaining(List<String> l, char c) {
-		return null;
+		ExtendedArrayList<String> filtered = new ExtendedArrayList<String>();
+		for (int i = 0; i < l.size(); i++) {
+			if (l.get(i).indexOf(c) != -1){
+				filtered.add(l.get(i));
+			}
+		}
+		return filtered;
 	}
 	
 	/**
@@ -76,5 +110,16 @@ public class ListExercises {
 	 * @param l a non-null, sorted list of strings
 	 */
 	public static void insertInOrder(String s, List<String> l) {
+		if (l.size() == 0) {
+			l.add(s);
+			return;
+		}
+		for (int i = 0; i < l.size(); i++) {
+			if (s.compareTo(l.get(i)) < 0) {
+				l.add(i, s);
+				return;
+			}
+		}
+		l.add(s);
 	}
 }
