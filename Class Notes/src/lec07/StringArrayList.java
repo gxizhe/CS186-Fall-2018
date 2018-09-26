@@ -1,4 +1,4 @@
-package lec06;
+package lec07;
 
 public class StringArrayList implements StringListInterface {
     String[] array;
@@ -46,7 +46,7 @@ public class StringArrayList implements StringListInterface {
 	
 	@Override
 	public String remove(int i) throws IndexOutOfBoundsException {
-		final String removed = strings[i];
+		final String removed = strings[i];S
 		if (i >= size || i < 0) {
 			throw new IndexOutOfBoundsException();
 		}

@@ -1,4 +1,4 @@
-package lec06;
+package lec07;
 
 public interface StringListInterface {
     public void add(String s);
