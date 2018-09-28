@@ -46,7 +46,7 @@ public class StringArrayList implements StringListInterface {
 	
 	@Override
 	public String remove(int i) throws IndexOutOfBoundsException {
-		final String removed = strings[i];S
+		final String removed = array[i];
 		if (i >= size || i < 0) {
 			throw new IndexOutOfBoundsException();
 		}

@@ -4,8 +4,10 @@
 
 package sequencer;
 
+import java.util.regex.*;
+
 public class Fragment {
-	
+	public String nucleotides;
 	/**
 	 * Creates a new Fragment based upon a String representing a sequence of nucleotides, 
 	 * containing only the uppercase characters G, C, A and T.
@@ -13,6 +15,7 @@ public class Fragment {
 	 * @throws IllegalArgumentException if invalid characters are in the sequence of nucleotides 
 	 */
 	public Fragment(String nucleotides) throws IllegalArgumentException {
+		this.nucleotides = nucleotides;
 	}
 	
 	/**
@@ -21,7 +24,7 @@ public class Fragment {
 	 * @return the length of this fragment
 	 */
 	public int length() {
-		return 0;
+		return nucleotides.length();
 	}
 	
 	/**
@@ -31,7 +34,7 @@ public class Fragment {
 	 */
 	@Override
 	public String toString() {
-		return null;
+		return nucleotides;
 	}
 	
 	/**
@@ -40,7 +43,12 @@ public class Fragment {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		return false;
+		if(o.toString() == nucleotides) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
