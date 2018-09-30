@@ -4,10 +4,8 @@
 
 package sequencer;
 
-import java.util.regex.*;
-
 public class Fragment {
-	public String nucleotides;
+	private String nucleotides;
 	/**
 	 * Creates a new Fragment based upon a String representing a sequence of nucleotides, 
 	 * containing only the uppercase characters G, C, A and T.
@@ -15,6 +13,23 @@ public class Fragment {
 	 * @throws IllegalArgumentException if invalid characters are in the sequence of nucleotides 
 	 */
 	public Fragment(String nucleotides) throws IllegalArgumentException {
+		boolean valid;
+		
+		for(int i = 0; i < nucleotides.length(); i++){			
+			if(nucleotides.charAt(i) == 'A'|| 
+			   nucleotides.charAt(i) == 'G'||
+			   nucleotides.charAt(i) == 'C'||
+			   nucleotides.charAt(i) == 'T'){
+				valid = true;
+			}
+			else{
+				valid = false;
+			}		
+			if(valid == false){
+				throw new IllegalArgumentException("Dosent work");
+			}	
+		}
+		
 		this.nucleotides = nucleotides;
 	}
 	
@@ -43,12 +58,12 @@ public class Fragment {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if(o.toString() == nucleotides) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	    if (!(o instanceof Fragment)) {
+	        return false;
+	    }
+
+	    Fragment f = (Fragment)o;
+	    return this.nucleotides.equals(f.nucleotides);
 	}
 	
 	/**
@@ -61,7 +76,19 @@ public class Fragment {
 	 * @return the number of nucleotides of overlap
 	 */
 	public int calculateOverlap(Fragment f) {
-		return 0;
+		int overlap = 0;
+		
+		if(f.toString().equals(nucleotides)) {
+			return f.length();
+		}
+		
+	    for(int i = 0; i < f.length(); i++){
+	    	if(this.nucleotides.endsWith(f.toString().substring(0, i))){
+	    		overlap = i;
+	    	}
+	    }
+	    
+	    return overlap;
 	}
 	
 	/**
@@ -74,6 +101,11 @@ public class Fragment {
 	 * @return a new fragment based upon merging this fragment with another fragment 
 	 */
 	public Fragment mergedWith(Fragment f) {
-		return null;
+		if(f.toString().equals(nucleotides)) {
+			return f;
+		}
+		else {
+			return new Fragment(this.nucleotides + f.toString().substring(calculateOverlap(f)));
+		}
 	}
 }
