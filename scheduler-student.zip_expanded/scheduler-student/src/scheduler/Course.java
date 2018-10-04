@@ -21,6 +21,9 @@ public class Course {
 	 * @throws IllegalArgumentException thrown if the courseNumber or capacity are invalid
 	 */
 	public Course(String courseNumber, int capacity) throws IllegalArgumentException {
+		if (courseNumber != null || courseNumber != "" || courseNumber != " " || capacity <= 0) {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	/**
