@@ -4,13 +4,20 @@
 
 package scheduler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Scheduler {
+	
+	private List<Course> listOfCourses;
+	private List<Student> listOfStudents;
+	
 	/**
 	 * Instantiates a new, empty scheduler.
 	 */
 	public Scheduler() {
+		listOfCourses = new ArrayList<Course>();
+		listOfStudents = new ArrayList<Student>();
 	}
 	
 	/**
@@ -19,6 +26,7 @@ public class Scheduler {
 	 * @param course  the course to be added
 	 */
 	public void addCourse(Course course) {
+		listOfCourses.add(course);
 	}
 	
 	/** 
@@ -29,7 +37,8 @@ public class Scheduler {
 	 * @return the list of courses
 	 */
 	public List<Course> getCourses() {
-		return null;
+		List<Course> courseList = new ArrayList<Course>(listOfCourses);
+		return courseList;
 	}
 	
 	/**
@@ -38,6 +47,7 @@ public class Scheduler {
 	 * @param student the student to add
 	 */
 	public void addStudent(Student student) {
+		listOfStudents.add(student);
 	}
 	
 	/**
@@ -47,7 +57,8 @@ public class Scheduler {
 	 * @return
 	 */
 	public List<Student> getStudents() {	
-		return null;
+		List<Student> studentList = new ArrayList<Student>(listOfStudents);
+		return studentList;
 	}
 	
 	/**
@@ -70,6 +81,44 @@ public class Scheduler {
 	 * that students want.
 	 */
 	public void assignAll() {
+		Student johnOrJaneDoe;
+		Course desiredCourse;
+		Course backUpChoice;
+		int times = 0;
+		for(int i = 0; i < listOfStudents.size(); i++) {
+			if(listOfStudents.get(i).getPreferences().size() > times) {
+				times = listOfStudents.get(i).getPreferences().size();
+			}
+		}
+		while(true) {
+			for(int i = 0; i < times; i++) {
+				for(int st = 0; st < listOfStudents.size(); st++) {
+					johnOrJaneDoe = listOfStudents.get(st);
+					desiredCourse = johnOrJaneDoe.getPreferences().get(i);
+					if(johnOrJaneDoe.getMaxCourses() > johnOrJaneDoe.getSchedule().size()) {
+						if(listOfCourses.contains(desiredCourse)) {
+							if(desiredCourse.getRoster().contains(johnOrJaneDoe) == false) {
+								if(desiredCourse.getRoster().size() < desiredCourse.getCapacity()) {
+									johnOrJaneDoe.addClass(desiredCourse);
+									desiredCourse.enroll(johnOrJaneDoe);
+								}
+								else {
+									for(int rip = i; rip < johnOrJaneDoe.getPreferences().size(); rip++) {
+										backUpChoice = johnOrJaneDoe.getPreferences().get(rip);
+										if(backUpChoice.getRoster().size() < backUpChoice.getCapacity()) {
+											johnOrJaneDoe.addClass(backUpChoice);
+											backUpChoice.enroll(johnOrJaneDoe);
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		}
 	}
 
 	/**
@@ -80,6 +129,11 @@ public class Scheduler {
 	 * @throws IllegalArgumentException  if either the student or the course are not known to this scheduler
 	 */
 	public void drop(Student student, Course course) throws IllegalArgumentException {
+		if(listOfStudents.contains(student) == false || listOfCourses.contains(course) == false) {
+			throw new IllegalArgumentException();
+		}
+		student.dropClass(course);
+		course.kickStudent(student);
 	}
 	
 	/**
@@ -89,5 +143,14 @@ public class Scheduler {
 	 * @throws IllegalArgumentException  if the student is not known to this scheduler
 	 */
 	public void unenroll(Student student) throws IllegalArgumentException{
+		if(listOfStudents.contains(student) == false) {
+			throw new IllegalArgumentException();
+		}
+		student.useless();
+		for(int i = 0; i < listOfCourses.size(); i++) {
+			if(listOfCourses.get(i).getRoster().contains(student)) {
+				listOfCourses.get(i).kickStudent(student);
+			}
+		}
 	}
 }

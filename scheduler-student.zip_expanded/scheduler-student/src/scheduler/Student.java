@@ -4,6 +4,7 @@
 
 package scheduler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,21 @@ public class Student {
 	 * @param preferences the student's ordered list of preferred courses
 	 * @throws IllegalArgumentException thrown if the maxCourses or preferences are invalid
 	 */
+	private String name;
+	private int maxCourses;
+	private List<Course> preferences;
+	private List<Course> schedule;
+	private List<Course> timeTable;
+
+	
 	public Student(String name, int maxCourses, List<Course> preferences) throws IllegalArgumentException {
+		if(name.isEmpty() == true || maxCourses <= 0 || preferences.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		this.name = name;
+		this.maxCourses = maxCourses;
+		this.preferences = preferences;
+		this.schedule = new ArrayList<Course>();
 	}
 	
 	/**
@@ -33,7 +48,7 @@ public class Student {
 	 * @return the student's name
 	 */
 	public String getName() {
-		return null;
+		return name;
 	}
 	
 	/**
@@ -41,7 +56,7 @@ public class Student {
 	 * @return the student's max course load
 	 */
 	public int getMaxCourses() {
-		return -1;
+		return maxCourses;
 	}
 	
 	/**
@@ -52,7 +67,7 @@ public class Student {
 	 * @return the student's preference list
 	 */
 	public List<Course> getPreferences() {
-		return null;
+		return preferences;
 	}
 	
 	/**
@@ -63,6 +78,19 @@ public class Student {
 	 * @return the student's schedule
 	 */
 	public List<Course> getSchedule() {
-		return null;
+		timeTable = new ArrayList<Course>(schedule);
+		return timeTable;
+	}
+	
+	public void addClass(Course courseName) {
+		schedule.add(courseName);
+	}
+	
+	public void dropClass(Course courseName) {
+		schedule.remove(courseName);
+	}
+	
+	public void useless() {
+		schedule.clear();
 	}
 }

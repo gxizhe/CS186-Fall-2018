@@ -4,6 +4,7 @@
 
 package scheduler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,10 +21,17 @@ public class Course {
 	 * @param capacity     the maximum number of students that can be in the class
 	 * @throws IllegalArgumentException thrown if the courseNumber or capacity are invalid
 	 */
+	private String courseNumber;
+	private int capacity;
+	private List<Student> roster;
+	
 	public Course(String courseNumber, int capacity) throws IllegalArgumentException {
-		if (courseNumber != null || courseNumber != "" || courseNumber != " " || capacity <= 0) {
+		if (courseNumber.isEmpty() == true || capacity <= 0) {
 			throw new IllegalArgumentException();
 		}
+		this.courseNumber = courseNumber;
+		this.capacity = capacity;
+		this.roster = new ArrayList<Student>();
 	}
 	
 	/**
@@ -31,7 +39,7 @@ public class Course {
 	 * @return the capacity of the course
 	 */
 	public int getCapacity() {
-		return -1;
+		return capacity;
 	}
 	
 	/**
@@ -39,7 +47,7 @@ public class Course {
 	 * @return the course number
 	 */
 	public String getCourseNumber() {
-		return null;
+		return courseNumber;
 	}
 
 	/**
@@ -50,6 +58,15 @@ public class Course {
 	 * @return the list of students currently in the course
 	 */
 	public List<Student> getRoster() {
-		return null;
+		List<Student> listed = new ArrayList<Student>(roster);
+		return listed;
+	}
+	
+	public void enroll(Student name) {
+		roster.add(name);
+	}
+	
+	public void kickStudent(Student name) {
+		roster.remove(name);
 	}
 }
