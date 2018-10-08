@@ -105,10 +105,14 @@ public class Scheduler {
 								else {
 									for(int rip = i; rip < johnOrJaneDoe.getPreferences().size(); rip++) {
 										backUpChoice = johnOrJaneDoe.getPreferences().get(rip);
-										if(backUpChoice.getRoster().size() < backUpChoice.getCapacity()) {
-											johnOrJaneDoe.addClass(backUpChoice);
-											backUpChoice.enroll(johnOrJaneDoe);
-											break;
+										if(listOfCourses.contains(backUpChoice)) {
+											if(backUpChoice.getRoster().contains(johnOrJaneDoe) == false) {
+												if(backUpChoice.getRoster().size() < backUpChoice.getCapacity()) {
+													johnOrJaneDoe.addClass(backUpChoice);
+													backUpChoice.enroll(johnOrJaneDoe);
+													break;
+												}
+											}
 										}
 									}
 								}
