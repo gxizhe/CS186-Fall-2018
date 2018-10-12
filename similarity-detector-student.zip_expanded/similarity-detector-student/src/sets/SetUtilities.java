@@ -4,6 +4,7 @@
 
 package sets;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class SetUtilities {
@@ -16,7 +17,10 @@ public class SetUtilities {
 	 * @return a new set representing the union of s and t
 	 */
 	public static <E> Set<E> union(Set<E> s, Set<E> t) {
-		return null;
+		Set<E> union = new HashSet<E>();
+		union.addAll(s);
+		union.addAll(t);
+		return union;
 	}
 
 	/**
@@ -28,7 +32,10 @@ public class SetUtilities {
 	 * @return a new set representing the intersection of s and t
 	 */
 	public static <E> Set<E> intersection(Set<E> s, Set<E> t) {
-		return null;
+		Set<E> intersection = new HashSet<E>();
+		intersection.addAll(s);
+		intersection.retainAll(t);
+		return intersection;
 	}
 
 	/**
@@ -41,7 +48,10 @@ public class SetUtilities {
 	 * @return a new set representing the difference of s and t
 	 */
 	public static <E> Set<E> setDifference(Set<E> s, Set<E> t) {
-		return null;
+		Set<E> difference = new HashSet<E>();
+		difference.addAll(s);
+		difference.removeAll(t);
+		return difference;
 	}
 	
 	/**
@@ -59,6 +69,12 @@ public class SetUtilities {
 	 * @return the Jaccard index of s and t
 	 */
 	public static <E> double jaccardIndex(Set<E> s, Set<E> t) {
-		return -1.0;
+		if(s.isEmpty() == true && t.isEmpty() == true) {
+			return 1;
+		}
+		double union = union(s, t).size();
+		double intersection = intersection(s, t).size();
+		double jaccardIndex =  intersection / union;
+		return jaccardIndex;
 	}
 }
