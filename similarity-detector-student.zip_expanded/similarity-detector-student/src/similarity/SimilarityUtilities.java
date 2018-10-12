@@ -4,8 +4,12 @@
 
 package similarity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import sets.SetUtilities;
 
 public class SimilarityUtilities {
 	/**
@@ -16,8 +20,30 @@ public class SimilarityUtilities {
 	 * @return the trimmed set of lines
 	 */
 	public static Set<String> trimmedLines(String text) {
-		return null;
+		Set<String> trimmed = new HashSet<String>();
+		
+		if(text.length() == 0){
+			return trimmed;
+		}
+		
+		List<String> cut = new ArrayList<String>();
+		cut.addAll(Arrays.asList(text.split("\\n")));
+		
+		for(int i = 0; i < cut.size(); i++){
+			String slimmed = cut.get(i).trim();
+			cut.set(i, slimmed);
+		}
+		
+		for(int i = 0; i < cut.size(); i++){
+			if(cut.get(i).length() == 0){
+				cut.remove(i);
+			}
+		}
+		
+		trimmed.addAll(cut);
+		return trimmed;
 	}
+
 
 	/**
 	 * Returns a list of words in the text, in the order they appeared in the text, 
@@ -29,7 +55,26 @@ public class SimilarityUtilities {
 	 * @return a list of lowercase words
 	 */
 	public static List<String> asLowercaseWords(String text) {
-		return null;
+		List<String> lowerCased = new ArrayList<String>();
+		
+		if(text.length() == 0) {
+			return lowerCased;
+		}
+		
+		lowerCased.addAll(Arrays.asList(text.split("\\W+")));
+		
+		for(int i = 0; i < lowerCased.size(); i++) {
+			String lowerCase = lowerCased.get(i).toLowerCase();
+			lowerCased.set(i, lowerCase);
+		}
+		
+		for(int i = 0; i < lowerCased.size(); i++){
+			if(lowerCased.get(i).length() == 0){
+				lowerCased.remove(i);
+			}
+		}
+		
+		return lowerCased;
 	}
 
 	/**
@@ -48,7 +93,12 @@ public class SimilarityUtilities {
 	 * @return
 	 */
 	public static double lineSimilarity(String text1, String text2) {
-		return -1.0;
+		Set<String> one = new HashSet<String>();
+		Set<String> two = new HashSet<String>();
+		one = trimmedLines(text1);
+		two = trimmedLines(text2);
+		
+		return SetUtilities.jaccardIndex(one, two);
 	}
 
 	/**
@@ -70,7 +120,20 @@ public class SimilarityUtilities {
 	 * @return
 	 */
 	public static double lineSimilarity(String text1, String text2, String templateText) {
-		return -1.0;
+		Set<String> one = new HashSet<String>();
+		Set<String> two = new HashSet<String>();
+		Set<String> oneRemoved = new HashSet<String>();
+		Set<String> twoRemoved = new HashSet<String>();
+		Set<String> template = new HashSet<String>();
+		
+		one = trimmedLines(text1);
+		two = trimmedLines(text2);
+		template = trimmedLines(templateText);
+		
+		oneRemoved = SetUtilities.setDifference(one, template);
+		twoRemoved = SetUtilities.setDifference(two, template);
+		
+		return SetUtilities.jaccardIndex(oneRemoved, twoRemoved);
 	}
 
 	/**
@@ -91,7 +154,22 @@ public class SimilarityUtilities {
 	 * @return 
 	 */
 	public static Set<String> shingle(List<String> words, int shingleLength) {
-		return null;
+		String shing = "";
+		List<String> trimmedWords = new ArrayList<String>();
+		Set<String> shingles = new HashSet<String>();
+		
+		for(int i = 0; i < words.size(); i++){
+			trimmedWords.add(words.get(i).trim()); 	
+		}
+		
+		for(int i = 0; i <= words.size() - shingleLength; i++){
+			for(int j = 0; j < shingleLength; j++){
+				shing += trimmedWords.get(i+j);
+			}
+			shingles.add(shing);
+			shing = "";
+		}
+		return shingles;
 	}
 
 	/**
@@ -112,6 +190,20 @@ public class SimilarityUtilities {
 	 * @return
 	 */
 	public static double shingleSimilarity(String text1, String text2, String templateText, int shingleLength) {
-		return -1.0;
+		Set<String> one = new HashSet<String>();
+		Set<String> two = new HashSet<String>();
+		Set<String> template = new HashSet<String>();
+		
+		Set<String> oneRemoved = new HashSet<String>();
+		Set<String> twoRemoved = new HashSet<String>();
+		
+		one = shingle(asLowercaseWords(text1), shingleLength);
+		two = shingle(asLowercaseWords(text2), shingleLength);
+		template = shingle(asLowercaseWords(templateText), shingleLength);
+		
+		oneRemoved = SetUtilities.setDifference(one, template);
+		twoRemoved = SetUtilities.setDifference(two, template);
+		
+		return SetUtilities.jaccardIndex(oneRemoved, twoRemoved);
 	}
 }

@@ -74,7 +74,6 @@ public class SetUtilities {
 		}
 		double union = union(s, t).size();
 		double intersection = intersection(s, t).size();
-		double jaccardIndex =  intersection / union;
-		return jaccardIndex;
+		return intersection / union;
 	}
 }
